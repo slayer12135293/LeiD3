@@ -11,7 +11,7 @@
     "remove-demo": "babel-node tools/removeDemo.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm run start-message",
-    "start": "concurrently -k -r -s first \"npm run test:watch\" \"npm run open:src\" \"npm run lint:watch\"",
+    "start": "concurrently -k -r -s first \"npm run open:src\" \"npm run lint:watch\"",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
     "lint": "esw webpack.config.* src tools --color",
@@ -28,9 +28,8 @@
     "open:cover": "npm run test:cover && opn ./coverage/lcov-report/index.html",
     "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
   },
-  "author": "Cory House",
-  "license": "MIT",
   "dependencies": {
+    "google-maps-react": "1.1.11",
     "object-assign": "4.1.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
@@ -72,7 +71,7 @@
     "history": "4.6.0",
     "html-webpack-plugin": "2.29.0",
     "identity-obj-proxy": "3.0.0",
-    "jest": "20.0.4" ,
+    "jest": "20.0.4",
     "jest-cli": "20.0.4",
     "json-loader": "0.5.4",
     "mockdate": "2.0.1",
@@ -168,7 +167,7 @@
       }
     }
   },
-  "eslintConfig": {   
+  "eslintConfig": {
     "globals": {}
   }
 }
