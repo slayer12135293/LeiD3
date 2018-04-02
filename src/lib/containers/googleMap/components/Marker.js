@@ -113,7 +113,7 @@ Marker.propTypes = {
     map: PropTypes.object,
 }
 
-evtNames.forEach(e => Marker.propTypes[e] = PropTypes.func)
+//evtNames.forEach(e => Marker.propTypes[e] = PropTypes.func)
 
 Marker.defaultProps = {
     name: 'Marker',

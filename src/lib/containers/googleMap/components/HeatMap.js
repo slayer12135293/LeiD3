@@ -107,7 +107,7 @@ HeatMap.propTypes = {
     icon: PropTypes.string,
 }
 
-evtNames.forEach(e => HeatMap.propTypes[e] = PropTypes.func)
+//evtNames.forEach(e => HeatMap.propTypes[e] = PropTypes.func)
 
 HeatMap.defaultProps = {
     name: 'HeatMap',

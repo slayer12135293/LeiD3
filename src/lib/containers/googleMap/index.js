@@ -130,7 +130,7 @@ export class Map extends React.Component {
 
     loadMap() {
         if (this.props && this.props.google) {
-            const { google } = this.props
+            const { google, activeDrawing } = this.props
             const maps = google.maps
 
             const mapRef = this.refs.map
@@ -212,42 +212,44 @@ export class Map extends React.Component {
             //
 
             //************************************drawing*********************
-            const drawingManager = new google.maps.drawing.DrawingManager({
-                drawingMode: google.maps.drawing.OverlayType.MARKER,
-                drawingControl: true,
-                drawingControlOptions: {
-                    position: google.maps.ControlPosition.TOP_CENTER,
-                    drawingModes: [ 'marker', 'circle', 'polygon', 'polyline', 'rectangle' ],
-                },
-                markerOptions: { icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png' },
-                circleOptions: {
-                    fillColor: '#ffff00',
-                    fillOpacity: 1,
-                    strokeWeight: 5,
-                    clickable: false,
-                    editable: true,
-                    zIndex: 1,
-                },
-            })
-            drawingManager.setMap(this.map)
-
-            google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
-                const radius = circle.getRadius()
-                alert(radius + 'km2')
-                circle.setMap(null)
-            })
-            google.maps.event.addListener(drawingManager, 'polylinecomplete', function(polyline) {                
-                const polylinePath = polyline.getPath()
-                alert(google.maps.geometry.spherical.computeLength(polyline.getPath()).toFixed(2) + 'km')
-                polyline.setMap(null)                
-            })
-              
-            google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
-                if (event.type == 'circle') {
-                    const radius = event.overlay.getRadius()
-                }
-            })
-            //************************************************************************ */
+            if(activeDrawing){
+                const drawingManager = new google.maps.drawing.DrawingManager({
+                    drawingMode: google.maps.drawing.OverlayType.MARKER,
+                    drawingControl: true,
+                    drawingControlOptions: {
+                        position: google.maps.ControlPosition.TOP_CENTER,
+                        drawingModes: [ 'marker', 'circle', 'polygon', 'polyline', 'rectangle' ],
+                    },
+                    markerOptions: { icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png' },
+                    circleOptions: {
+                        fillColor: '#ffff00',
+                        fillOpacity: 1,
+                        strokeWeight: 5,
+                        clickable: false,
+                        editable: true,
+                        zIndex: 1,
+                    },
+                })
+                drawingManager.setMap(this.map)
+    
+                google.maps.event.addListener(drawingManager, 'circlecomplete', function(circle) {
+                    const radius = circle.getRadius()
+                    alert(radius + 'km2')
+                    circle.setMap(null)
+                })
+                google.maps.event.addListener(drawingManager, 'polylinecomplete', function(polyline) {                
+                    const polylinePath = polyline.getPath()
+                    alert(google.maps.geometry.spherical.computeLength(polyline.getPath()).toFixed(2) + 'km')
+                    polyline.setMap(null)                
+                })
+                  
+                google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+                    if (event.type == 'circle') {
+                        const radius = event.overlay.getRadius()
+                    }
+                })
+                //************************************************************************ */
+            }
 
             // search auto complete **************************************************
 
@@ -381,6 +383,7 @@ export class Map extends React.Component {
 
     render() {
         const { currentMap } = this.state
+        const{ showSearch } = this.props
         const style = Object.assign({}, mapStyles.map, this.props.style, {
             display: this.props.visible ? 'inherit' : 'none',
         })
@@ -392,9 +395,12 @@ export class Map extends React.Component {
         )
         return (
             <div>
-                <SearchAutoComplete 
+                {showSearch ? <SearchAutoComplete 
                     map= {currentMap}                    
-                />
+                /> : <div />}
+                {/* <SearchAutoComplete 
+                    map= {currentMap}                    
+                /> */}
                 <div style={containerStyles} className={this.props.className}>                                
                     <div style={style} ref="map">
           Loading map...
@@ -445,9 +451,11 @@ Map.propTypes = {
     noClear: PropTypes.bool,
     styles: PropTypes.array,
     gestureHandling: PropTypes.string,
+    showSearch: PropTypes.bool,
+    activeDrawing: PropTypes.bool,
 }
 
-evtNames.forEach(e => (Map.propTypes[camelize(e)] = PropTypes.func))
+// evtNames.forEach(e => (Map.propTypes[camelize(e)] = PropTypes.func))
 
 Map.defaultProps = {
     zoom: 14,
@@ -460,6 +468,8 @@ Map.defaultProps = {
     style: {},
     containerStyle: {},
     visible: true,
+    showSearch: true,
+    activeDrawing: true,
 }
 
 export default Map

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
-import { Map, InfoWindow, Marker, GoogleApiWrapper,Polygon } from 'google-maps-react'
+//import { Map, InfoWindow, Marker, GoogleApiWrapper,Polygon } from 'google-maps-react'
+import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from '../containers/googleMap/index'
 import PropTypes from 'prop-types'
 
 class MapContainer extends PureComponent {
@@ -54,6 +55,8 @@ class MapContainer extends PureComponent {
                             lat: currentlat,
                             lng: currentlgt,
                         }}
+                        showSearch={false}
+                        activeDrawing={false}
                     />
                 </div>                
             </div>            
@@ -68,4 +71,5 @@ MapContainer.propTypes = {
 
 export default GoogleApiWrapper({
     apiKey: ('AIzaSyC6SAcwZ895KK7ckh4fmZVPSS2OE4xe0nk'),
+    libraries: [ 'drawing','places','geometry' ],
 })(MapContainer)

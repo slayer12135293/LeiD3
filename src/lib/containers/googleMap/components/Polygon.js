@@ -102,7 +102,7 @@ Polygon.propTypes = {
     fillOpacity: PropTypes.number,
 }
 
-evtNames.forEach(e => Polygon.propTypes[e] = PropTypes.func)
+//evtNames.forEach(e => Polygon.propTypes[e] = PropTypes.func)
 
 Polygon.defaultProps = {
     name: 'Polygon',

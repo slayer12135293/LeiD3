@@ -96,7 +96,7 @@ Polyline.propTypes = {
     strokeWeight: PropTypes.number,
 }
 
-evtNames.forEach(e => Polyline.propTypes[e] = PropTypes.func)
+//evtNames.forEach(e => Polyline.propTypes[e] = PropTypes.func)
 
 Polyline.defaultProps = {
     name: 'Polyline',
