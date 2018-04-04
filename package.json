@@ -1,7 +1,7 @@
 {
-  "name": "react-slingshot",
-  "version": "7.0.1",
-  "description": "Starter kit for creating apps with React and Redux",
+  "name": "datscha3",
+  "version": "1.0.0",
+  "description": "Datscha 2 fundation",
   "engines": {
     "npm": ">=3"
   },

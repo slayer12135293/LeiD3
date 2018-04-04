@@ -12,7 +12,7 @@ class HomePage extends PureComponent {
                 name: 'pub anchor',
                 geoCode: {                
                     lat: 59.3412669, 
-                    lng: 18.058471300000065,                
+                    lng: 18.1,                
                 },
             },
             {
