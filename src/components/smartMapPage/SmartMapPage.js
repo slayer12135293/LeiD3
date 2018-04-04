@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import SmartMapContainer  from '../../lib/containers/smartMapContainer'
+import { SmartMapContainer }  from '../../lib/containers/smartMapContainer'
 import MapContainer  from '../../lib/common/mapContainer'
 import './styles/smart-map-page.scss'
 

@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux'
-import fuelSavings from './fuelSavingsReducer'
-import { routerReducer } from 'react-router-redux'
+import pinMarkers from './pinReducer'
 
 const rootReducer = combineReducers({
-    fuelSavings,
-    routing: routerReducer,
+    pinMarkers,
 })
 
 export default rootReducer

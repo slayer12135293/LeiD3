@@ -178,7 +178,6 @@ export class Map extends React.Component {
             this.map = new maps.Map(node, mapConfig)
 
             this.map.addListener('dragend', (evt) => {
-                debugger
                 console.log(evt)
             })
 

@@ -2,7 +2,6 @@ import { createStore, compose, applyMiddleware } from 'redux'
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant'
 import thunk from 'redux-thunk'
 import createHistory from 'history/createBrowserHistory'
-// 'routerMiddleware': the new way of storing route changes with redux middleware since rrV4.
 import { routerMiddleware } from 'react-router-redux'
 import rootReducer from '../reducers'
 import { createLogger } from 'redux-logger'
@@ -34,7 +33,7 @@ function configureStoreDev(initialState) {
         diff: true,
     })
     const middlewares = [    
-        reduxImmutableStateInvariant(),
+        //reduxImmutableStateInvariant(),
         thunk,
         reactRouterMiddleware,
         logger,

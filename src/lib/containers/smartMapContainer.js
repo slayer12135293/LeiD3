@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from './googleMap/index'
 import './auto-complete.scss'
 import SearchAutoComplete from './googleMap/components/searchAutoComplete/SearchAutoComplete'
 
-class SmartMapContainer extends PureComponent {
+class SmartMapContainerRaw extends PureComponent {
     constructor(props){
         super(props)
         this.state = {
@@ -17,7 +18,7 @@ class SmartMapContainer extends PureComponent {
     }
 
     render() {
-        const { title, zoomlvl } = this.props
+        const { title, zoomlvl,markers } = this.props
         const { defaultLat, defaultLgt } = this.state
         const triangleCoords = [
             { lat: 25.774, lng: -80.190 },
@@ -25,36 +26,28 @@ class SmartMapContainer extends PureComponent {
             { lat: 32.321, lng: -64.757 },
             { lat: 25.774, lng: -80.190 },
         ]
-        return (
-            <div>
-                <h1>{title}</h1>   
 
-                {/* <div className="pac-card" id="pac-card">
-                    <div>
-                        <div id="title">
-                            Autocomplete search
-                        </div>
-                        <div id="type-selector" className="pac-controls">
-                            <input type="radio" name="type" id="changetype-all" defaultChecked/>
-                            <label htmlFor="changetype-all">All</label>
-                            <input type="radio" name="type" id="changetype-establishment"/>
-                            <label htmlFor="changetype-establishment">Establishments</label>
-                            <input type="radio" name="type" id="changetype-address"/>
-                            <label htmlFor="changetype-address">Addresses</label>
-                            <input type="radio" name="type" id="changetype-geocode"/>
-                            <label htmlFor="changetype-geocode">Geocodes</label>
-                        </div>
-                        <div id="strict-bounds-selector" className="pac-controls">
-                            <input type="checkbox" id="use-strict-bounds" value="" defaultChecked />
-                            <label htmlFor="use-strict-bounds">Strict Bounds</label>
-                        </div>
-                        
-                    </div>
-                    <div id="pac-container">
-                        <input id="pac-input" type="text" placeholder="Enter a location" />
-                    </div>
-                </div>                 */}
-    
+        const lei = [
+            {
+                id: 1,
+                name: 'pub anchor',
+                geoCode: {                
+                    lat: 59.3412669, 
+                    lng: 18.058471300000065,                
+                },
+            },
+            {
+                id: 2,
+                name: 'konserthuset',
+                geoCode: {                
+                    lat: 59.3412669, 
+                    lng: 18.058471300000065,                
+                },
+            },
+        ]
+        return (            
+            <div>
+                <h1>{title}</h1>  
                 <Map 
                     google={google}
                     zoom={zoomlvl}
@@ -63,6 +56,26 @@ class SmartMapContainer extends PureComponent {
                         lng: defaultLgt,
                     }}
                 >
+                    {
+                        lei !== undefined ? lei.map(marker => {
+                            <Marker
+                                // key={marker.id}
+                                title={marker.name}
+                                position={marker.geoCode}
+                                // icon={{
+                                //     url: 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Homer-Simpson-04-Happy-icon.png',
+                                //     anchor: new google.maps.Point(32,32),
+                                //     scaledSize: new google.maps.Size(64,64),
+                                // }} 
+                            />
+                        }) : <Marker />     
+                           
+                    }
+                    
+                    {/* <Marker
+                        title={'The marker`s title will appear as a tooltip.'}
+                        name={'SOMA'}
+                        position={{ lat: 59.3412669, lng: 18.058471300000065 }} /> */}
                     <Polygon
                         paths={triangleCoords}
                         strokeColor="#0000FF"
@@ -76,12 +89,18 @@ class SmartMapContainer extends PureComponent {
     }
 }
 
-SmartMapContainer.propTypes = {
+SmartMapContainerRaw.propTypes = {
     title: PropTypes.string.isRequired,
     zoomlvl: PropTypes.number.isRequired,
 }
 
-export default GoogleApiWrapper({
+const mapStatetoProps = (state)=>{
+    return {
+        markers: state.pinMarkers.pins,
+    }
+}
+
+export const SmartMapContainer =  connect(mapStatetoProps)(GoogleApiWrapper({
     apiKey: ('AIzaSyC6SAcwZ895KK7ckh4fmZVPSS2OE4xe0nk'),
     libraries: [ 'drawing','places','geometry' ],
-})(SmartMapContainer)
+})(SmartMapContainerRaw))

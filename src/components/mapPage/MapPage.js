@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import MapContainer  from '../../lib/common/mapContainer'
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react'
+import { connect } from 'react-redux'
 import './styles/map-page.scss'
 
 class MapPage extends PureComponent {
@@ -15,4 +15,5 @@ class MapPage extends PureComponent {
         )
     }    
 }
+
 export default MapPage

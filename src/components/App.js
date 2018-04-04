@@ -4,7 +4,6 @@ import { Switch, NavLink, Route } from 'react-router-dom'
 import HomePage from './HomePage'
 import MapPage from './mapPage/MapPage'
 import SmartMapPage from './smartMapPage/SmartMapPage'
-import FuelSavingsPage from './containers/FuelSavingsPage'
 import AboutPage from './aboutPage/AboutPage'
 import NotFoundPage from './NotFoundPage'
 
@@ -27,7 +26,6 @@ class App extends React.Component {
                         <Route exact path="/" component={HomePage} />
                         <Route path="/map" component={MapPage} />
                         <Route path="/smartMapPage" component={SmartMapPage} />
-                        <Route path="/fuel-savings" component={FuelSavingsPage} />
                         <Route path="/about" component={AboutPage} />
                         <Route component={NotFoundPage} />
                     </Switch>
