@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-//import { Map, InfoWindow, Marker, GoogleApiWrapper,Polygon } from 'google-maps-react'
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from '../containers/googleMap/index'
 import PropTypes from 'prop-types'
 
@@ -15,8 +14,7 @@ class MapContainer extends PureComponent {
 
     }
     componentDidMount () { 
-        const { google } = this.props
-        
+        const { google } = this.props        
     }
 
     _handleClick = () => {
@@ -57,7 +55,9 @@ class MapContainer extends PureComponent {
                         }}
                         showSearch={false}
                         activeDrawing={false}
-                    />
+                    >
+                        <Marker />
+                    </Map>
                 </div>                
             </div>            
         )

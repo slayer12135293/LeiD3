@@ -248,66 +248,7 @@ export class Map extends React.Component {
                     }
                 })
                 //************************************************************************ */
-            }
-
-            // search auto complete **************************************************
-
-            // const card = document.getElementById('pac-card')
-            // const input = document.getElementById('pac-input')
-            // const types = document.getElementById('type-selector')
-            // const strictBounds = document.getElementById('strict-bounds-selector')
-
-            // this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card)
-            // const autocomplete = new google.maps.places.Autocomplete(input)
-
-            // // Bind the map's bounds (viewport) property to the autocomplete object,
-            // // so that the autocomplete requests use the current map bounds for the
-            // // bounds option in the request.
-            // autocomplete.bindTo('bounds', this.map)
-
-            // const infowindow = new google.maps.InfoWindow()
-            // const infowindowContent = document.getElementById('infowindow-content')
-            // infowindow.setContent(infowindowContent)
-            // const marker = new google.maps.Marker({
-            //     map: this.map,
-            //     anchorPoint: new google.maps.Point(0, -29),
-            // })
-
-            const leifunc = ()=>{
-                infowindow.close()
-                marker.setVisible(false)
-                const place = autocomplete.getPlace()
-                if (!place.geometry) {
-                    // User entered the name of a Place that was not suggested and
-                    // pressed the Enter key, or the Place Details request failed.
-                    window.alert('No details available for input: \'' + place.name + '\'')
-                    return
-                }
-
-                // If the place has a geometry, then present it on a map.
-                if (place.geometry.viewport) {
-                    this.map.fitBounds(place.geometry.viewport)
-                } else {
-                    this.map.setCenter(place.geometry.location)
-                    this.map.setZoom(17)  // Why 17? Because it looks good.
-                }
-                marker.setPosition(place.geometry.location)
-                marker.setVisible(true)
-
-                let address = ''
-                if (place.address_components) {
-                    address = [
-                        (place.address_components[0] && place.address_components[0].short_name || ''),
-                        (place.address_components[1] && place.address_components[1].short_name || ''),
-                        (place.address_components[2] && place.address_components[2].short_name || ''),
-                    ].join(' ')
-                }
-
-                infowindowContent.children['place-icon'].src = place.icon
-                infowindowContent.children['place-name'].textContent = place.name
-                infowindowContent.children['place-address'].textContent = address
-                infowindow.open(this.map, marker)                
-            }                 
+            }             
            
             //////////////////////////////////////////////////////////
             evtNames.forEach(e => {
@@ -393,13 +334,7 @@ export class Map extends React.Component {
             this.props.containerStyle
         )
         return (
-            <div>
-                {showSearch ? <SearchAutoComplete 
-                    map= {currentMap}                    
-                /> : <div />}
-                {/* <SearchAutoComplete 
-                    map= {currentMap}                    
-                /> */}
+            <div>                
                 <div style={containerStyles} className={this.props.className}>                                
                     <div style={style} ref="map">
           Loading map...
@@ -411,14 +346,6 @@ export class Map extends React.Component {
             
         )
     }
-}
-
-// auto complete listener
-function setupClickListener(id, types,autocomplete) {
-    const radioButton = document.getElementById(id)
-    radioButton.addEventListener('click', function() {
-        autocomplete.setTypes(types)
-    })
 }
 
 Map.propTypes = {

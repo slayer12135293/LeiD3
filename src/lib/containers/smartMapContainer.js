@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polygon } from './googleMap/index'
 import './auto-complete.scss'
 import SearchAutoComplete from './googleMap/components/searchAutoComplete/SearchAutoComplete'
+import SmartMarkers from './googleMap/components/smartMarker/smartMarkers'
 
 class SmartMapContainerRaw extends PureComponent {
     constructor(props){
@@ -26,28 +27,11 @@ class SmartMapContainerRaw extends PureComponent {
             { lat: 32.321, lng: -64.757 },
             { lat: 25.774, lng: -80.190 },
         ]
-
-        const lei = [
-            {
-                id: 1,
-                name: 'pub anchor',
-                geoCode: {                
-                    lat: 59.3412669, 
-                    lng: 18.058471300000065,                
-                },
-            },
-            {
-                id: 2,
-                name: 'konserthuset',
-                geoCode: {                
-                    lat: 59.3412669, 
-                    lng: 18.058471300000065,                
-                },
-            },
-        ]
-        return (            
+       
+        return (                   
             <div>
                 <h1>{title}</h1>  
+                
                 <Map 
                     google={google}
                     zoom={zoomlvl}
@@ -56,26 +40,8 @@ class SmartMapContainerRaw extends PureComponent {
                         lng: defaultLgt,
                     }}
                 >
-                    {
-                        lei !== undefined ? lei.map(marker => {
-                            <Marker
-                                // key={marker.id}
-                                title={marker.name}
-                                position={marker.geoCode}
-                                // icon={{
-                                //     url: 'http://icons.iconarchive.com/icons/jonathan-rey/simpsons/256/Homer-Simpson-04-Happy-icon.png',
-                                //     anchor: new google.maps.Point(32,32),
-                                //     scaledSize: new google.maps.Size(64,64),
-                                // }} 
-                            />
-                        }) : <Marker />     
-                           
-                    }
-                    
-                    {/* <Marker
-                        title={'The marker`s title will appear as a tooltip.'}
-                        name={'SOMA'}
-                        position={{ lat: 59.3412669, lng: 18.058471300000065 }} /> */}
+                    <SmartMarkers markers= {markers}/>           
+                    <SearchAutoComplete google={google}/>
                     <Polygon
                         paths={triangleCoords}
                         strokeColor="#0000FF"

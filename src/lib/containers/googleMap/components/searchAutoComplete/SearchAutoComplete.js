@@ -8,55 +8,50 @@ class SearchAutoComplete extends PureComponent{
         this.state = {
             changeType :'',
             useStrictBounds: false,
-            map:'',
         }
         this._typeChange = this._typeChange.bind(this)
         this._strictBoundsChange = this._strictBoundsChange.bind(this)
-        //this._placeUpdate = this._placeUpdate.bind(this)
         
     }
-    componentDidMount(){
-          
+    componentDidMount(){      
     }
-    componentDidUpdate(prevProps, prevState){
-        const{ map } = this.props 
-        this.setState({
-            map,
-        })
-        if(prevProps.map === map){
-            this._autoCompleteLoader() 
+    componentDidUpdate(prevProps, prevState){       
+        if(this.props.map !== prevProps.map){
+            this.props.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.refs.pacCard)     
+            this._autoCompleteLoader()     
         }
+               
+        if (this.state.changeType !== prevState.changeType ||
+            this.state.useStrictBounds !== prevState.useStrictBounds) {     
+            if(this.state.changeType === ''){
+                this.autocomplete.setTypes([])
+            }else{
+                this.autocomplete.setTypes( [ this.state.changeType ] )
+            } 
+            this.autocomplete.setOptions({ strictBounds: this.state.useStrictBounds })  
+        }         
     }
     _autoCompleteLoader(){
-        const{ map,changeType,useStrictBounds } = this.state
-        const autocomplete = new google.maps.places.Autocomplete(this.refs.pacInput)        
+        const { map } = this.props
+
+        this.autocomplete = new google.maps.places.Autocomplete(this.refs.pacInput)            
         const infowindow = new google.maps.InfoWindow()
-        autocomplete.bindTo('bounds',map)
+        this.autocomplete.bindTo('bounds',map)
         const infowindowContent = document.getElementById('infowindow-content')
         infowindow.setContent(infowindowContent)
         const marker = new google.maps.Marker({
             map: map,
             anchorPoint: new google.maps.Point(0, -29),
         })
-
-        if(changeType.length === 0){
-            autocomplete.setTypes([])
-        }else{
-            autocomplete.setTypes( [ changeType ] )
-        } 
-        autocomplete.setOptions({ strictBounds: useStrictBounds })     
         
-        autocomplete.addListener('place_changed', function() {
+        this.autocomplete.addListener('place_changed', ()=> {
             infowindow.close()
             marker.setVisible(false)
-            const place = autocomplete.getPlace()
+            const place = this.autocomplete.getPlace()
             if (!place.geometry) {
-                // User entered the name of a Place that was not suggested and
-                // pressed the Enter key, or the Place Details request failed.
                 window.alert('No details available for input: \'' + place.name + '\'')
                 return
-            }
-  
+            }  
             // If the place has a geometry, then present it on a map.
             if (place.geometry.viewport) {
                 map.fitBounds(place.geometry.viewport)
@@ -81,6 +76,7 @@ class SearchAutoComplete extends PureComponent{
             infowindowContent.children['place-address'].textContent = address
             infowindow.open(map, marker)
         })
+
     }
         
     _typeChange(event){
@@ -95,8 +91,6 @@ class SearchAutoComplete extends PureComponent{
     }   
 
     render(){
-        const{ map, positionLocator } = this.props       
-
         return(            
             <div className="pac-card" id="pac-card" ref="pacCard">
                 <div>
@@ -104,7 +98,7 @@ class SearchAutoComplete extends PureComponent{
                             Autocomplete search
                     </div>
                     <div id="type-selector" className="pac-controls" onChange={this._typeChange}>
-                        <input type="radio" name="type" id="changetype-all" value="[]" defaultChecked />
+                        <input type="radio" name="type" id="changetype-all" value="" defaultChecked />
                         <label htmlFor="changetype-all">All</label>
                         <input type="radio" name="type" id="changetype-establishment" value="establishment" />
                         <label htmlFor="changetype-establishment">Establishments</label>
